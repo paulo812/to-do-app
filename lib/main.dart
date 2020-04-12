@@ -34,16 +34,36 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  var newTaskController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("ABCDE"),
-      ),
+          title: TextFormField(
+        controller: newTaskController,
+        keyboardType: TextInputType.text,
+        style: TextStyle(color: Colors.white, fontSize: 20),
+        decoration: InputDecoration(
+          labelText: "Adicionar nova tarefa",
+          labelStyle: TextStyle(color: Colors.white),
+        ),
+      )),
       body: ListView.builder(
         itemCount: widget.items.length,
         itemBuilder: (BuildContext ctxt, int index) {
-          return Text(widget.items[index].title);
+          final item = widget.items[index];
+
+          return CheckboxListTile(
+            title: Text(item.title),
+            key: Key(item.title),
+            value: item.isDone,
+            onChanged: (value) {
+              setState(() {
+                item.isDone = value;
+              });
+            },
+          );
         },
       ),
     );
